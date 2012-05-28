@@ -1,0 +1,6 @@
+*.pyc
+*.pyo
+*.db
+*.log
+logs/*
+local_settings.py
