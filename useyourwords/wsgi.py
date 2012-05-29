@@ -16,6 +16,9 @@ framework.
 import os
 import sys
 
+activate_this = '/opt/shazbot/bin/activate_this.py'
+execfile(activate_this, dict(__file__=activate_this))
+
 sys.path.insert(0, '/var/www/django_projects')
 sys.path.insert(1, '/var/www/django_projects/useyourwords')
 sys.path.insert(2, '/var/www/django_projects/useyourwords/useyourwords')
