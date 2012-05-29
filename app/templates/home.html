@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class="hero-unit">
+		<h1>Hey there</h1>
+		<p>Lots of things</p>
+	</div>
+	<div class="row">
+		<div class="span6">
+			<h2>
+				Upload PST
+			</h2>
+			<form action="" id="upload" method="post" enctype="multipart/form-data">
+				<div class="well">
+					<input id="file-select" type="file" name="file" value="" />
+					<button id="submit" class="btn btn-success pull-right"><i class="icon-upload"></i>Upload</button>
+					<!--<div id="file-drag">Or drop files here</div>-->
+				</div>
+			</form>
+			<div id="status"></div>
+		</div>
+		<div class="span6">
+			<h2>
+				Results
+			</h2>
+			<p>description</p>
+		</div>
+	</div> <!-- /.row -->
+{% endblock %}
