@@ -7,6 +7,7 @@ from app.views import *
 
 urlpatterns = patterns('',
 	(r'^$', index),
+	(r'^upload/', upload_file),
     # Examples:
     # url(r'^$', 'useyourwords.views.home', name='home'),
     # url(r'^useyourwords/', include('useyourwords.foo.urls')),
