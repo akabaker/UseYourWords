@@ -6,28 +6,23 @@ from django.template import RequestContext
 from app.forms import UploadFile
 import tempfile
 
-def handle_uploaded_file(file):
-	#temp = tempfile.NamedTemporaryFile()
-	#for chunk in file.chunks():
-	#	temp.write(chunk)
-	with open('/tmp/tmpfile', 'wr+') as f:
-		for chunk in file.chunks():
-			f.write(chunk)
+FILE_UPLOAD_DIR = '/tmp'
 
-def index(request):
-	return render_to_response('home.html', context_instance = RequestContext(request))
+def handle_uploaded_file(file):
+	fd, filepath = tempfile.mkstemp(prefix=file.name, dir=FILE_UPLOAD_DIR)
+	with open(filepath, 'wb+') as dest:
+		for chunk in file.chunks():
+			dest.write(chunk)
+	return filepath
 
 @csrf_exempt
 def upload_file(request):
-	errors = []
 	if request.method == 'POST':
 		form = UploadFile(request.POST, request.FILES)
 		if form.is_valid():
-			handle_uploaded_file(request.FILES['file'])
-			return HttpResponse('success')
+			filepath = handle_uploaded_file(request.FILES['file'])
+			return HttpResponse(filepath)
 
-		else:
-			return render_to_response('home.html')	
-	else:
-		form = UploadFileForm()
-	return render_to_response('home.html')	
+
+def index(request):
+	return render_to_response('home.html', context_instance = RequestContext(request))

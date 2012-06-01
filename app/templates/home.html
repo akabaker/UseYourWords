@@ -10,9 +10,13 @@
 			<h2>
 				Upload PST
 			</h2>
-			<form action="" id="upload" method="post" enctype="multipart/form-data">
+			<form action="/upload/" id="upload" method="post" enctype="multipart/form-data">
 				<div class="well">
+				{% csrf_token %}
 					<input id="file-select" type="file" name="file" value="" />
+					{% if field.errors %}
+						<span>{% for error in field.errors %}{{ error }}<br> {% endfor %}</span>
+					{% endif %}
 					<button id="submit" class="btn btn-success pull-right"><i class="icon-upload"></i>Upload</button>
 					<div id="file-drag">Or drop files here</div>
 				</div>
