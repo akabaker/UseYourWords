@@ -8,7 +8,7 @@
 	<div class="row">
 		<div class="span6">
 			<h2>
-				Upload PST
+				First, upload a PST
 			</h2>
 			<form action="/upload/" id="upload" method="post" enctype="multipart/form-data">
 				<div class="well">
@@ -26,9 +26,19 @@
 		</div>
 		<div class="span6">
 			<h2>
-				Select words
+				Then, select words
 			</h2>
-			<p>description</p>
+			<div class="row">
+				<div class="span3 word-chooser">
+					<ul class="unstyled">
+					{% for word in words %}
+						<li>{{ word }}</li>	
+					{% endfor %}
+					</ul>
+				</div>
+				<div class="span3 word-chooser">
+				</div>
+			</div>
 		</div>
 	</div> <!-- /.row -->
 {% endblock %}

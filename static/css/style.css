@@ -29,3 +29,8 @@ body {
 	font-style: italic;
 	font-size: 0.9em;
 }
+
+.word-chooser {
+	max-height: 250px;
+	overflow: auto;
+}
