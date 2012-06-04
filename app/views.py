@@ -21,7 +21,7 @@ def upload_file(request):
 		form = UploadFile(request.POST, request.FILES)
 		if form.is_valid():
 			filepath = handle_uploaded_file(request.FILES['file'])
-			return HttpResponse(filepath)
+			return HttpResponse(request.FILES.name)
 
 
 def index(request):

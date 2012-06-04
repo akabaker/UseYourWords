@@ -1,29 +1,39 @@
 var App = function() {
-	var uploadBtn = $("#submit");
-	var status = $("#status");
-	var input = $("#file-select");
+	var uploadBtn = $("#submit"),
+	 	loading = $("#loading"),
+	 	input = $("#file-select"),
+	 	status = $("#status"),
+	 	file;
 
 	return {
 		uploadBtn: uploadBtn,
-		input: input,
-		doUpload: function(event) {
 
-				$.ajax({
-					type: "POST",
-					url: "/upload/",
-					data: data,
-					//This will prevent jquery from making the data into a query string
-					processData: false,
-					contentType: false,
-					statusCode: {
-						500: function() {
-							console.log("http500");
-						}
-					},
-					success: function(result) {
-						console.log(result);
-					}
-				});
+		input: input,
+
+		doUpload: function() {
+			var formData = new FormData();
+
+			//Just sending one file
+			formData.append("file", this.files[0]);
+
+			loading.ajaxStart(function() {
+				$(this).show();
+			});
+
+			$.ajax({
+				type: "POST",
+				url: "/upload/",
+				data: formData,
+				//This will prevent jquery from making the data into a query string
+				processData: false,
+				contentType: false,
+				success: function(result) {
+					status.html("<span>Uploaded: " + result + "</span>");	
+					loading.ajaxStop(function() {
+						$(this).hide();
+					});
+				}
+			});
 		},
 	}
 };
@@ -35,6 +45,7 @@ $(function() {
 	if (window.FormData && window.FileReader){
 		app.uploadBtn.hide();
 
-		app.input.bind("change", event, app.doUpload);
+		//app.input.bind("change", jQuery.proxy(app.doUpload, app.input));
+		app.input.bind("change", app.doUpload);
 	}
 });

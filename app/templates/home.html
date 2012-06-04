@@ -17,6 +17,7 @@
 					{% if field.errors %}
 						<span>{% for error in field.errors %}{{ error }}<br> {% endfor %}</span>
 					{% endif %}
+					<div id="loading"><span>uploading..</span></div>
 					<button id="submit" class="btn btn-success pull-right"><i class="icon-upload"></i>Upload</button>
 					<div id="file-drag">Or drop files here</div>
 				</div>
