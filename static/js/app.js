@@ -1,35 +1,40 @@
-function output(msg) {
-	var m = $("#status");
-	m.value(msg);
-}
+var App = function() {
+	var uploadBtn = $("#submit");
+	var status = $("#status");
+	var input = $("#file-select");
 
-function FileSelectHandler(e) {
-	// cancel event and hover styling
-	FileDragHover(e);
+	return {
+		uploadBtn: uploadBtn,
+		input: input,
+		doUpload: function(event) {
 
-	//fetch filelist object
-	var file = e.target.file || e.dataTransfer.file;
-
-}
-
-if (window.File && window.FileList && window.FileReader) {
-	init();
-}
-
-function init() {
-	var fileSelect = $("#file-select"),
-		fileDrag = $("#file-drag"),
-		submitBtn = $("#submit");
-	
-	fileSelect.addEventListener("change", FileSelectHandler, false);
-
-	var xhr = new XMLHttpRequest();
-	if (xhr.upload) {
-		fileDrag.addEventListener("dragover", FileDragHover, false);
-		fileDrag.addEventListener("dragleave", FileDragHover, false);
-		fileDrag.addEventListener("drop", FileSelectHandler, false);
-		fileDrag.style.display = "block";
-
-		submitBtn.style.display = "none";
+				$.ajax({
+					type: "POST",
+					url: "/upload/",
+					data: data,
+					//This will prevent jquery from making the data into a query string
+					processData: false,
+					contentType: false,
+					statusCode: {
+						500: function() {
+							console.log("http500");
+						}
+					},
+					success: function(result) {
+						console.log(result);
+					}
+				});
+		},
 	}
-}
+};
+
+$(function() {
+	var app = App();
+
+	//See if we support ajax uploads
+	if (window.FormData && window.FileReader){
+		app.uploadBtn.hide();
+
+		app.input.bind("change", event, app.doUpload);
+	}
+});
