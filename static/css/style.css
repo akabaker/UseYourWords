@@ -31,6 +31,11 @@ body {
 }
 
 .word-chooser {
-	max-height: 250px;
+	max-height: 225px;
 	overflow: auto;
+}
+
+textarea {
+	height: 225px;
+	resize: none;
 }
