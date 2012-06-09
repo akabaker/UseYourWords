@@ -7,6 +7,7 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+WORDS_FILE = '/var/www/django_projects/useyourwords/static/words.json'
 MANAGERS = ADMINS
 
 DATABASES = {

@@ -28,7 +28,7 @@ var App = function() {
 				processData: false,
 				contentType: false,
 				success: function(result) {
-					status.html("<span>Uploaded: " + result + "</span>");	
+					status.html("<span class='label label-success'>File uploaded </span></span>" + result + "</span>");	
 					loading.ajaxStop(function() {
 						$(this).hide();
 					});

@@ -29,3 +29,13 @@ body {
 	font-style: italic;
 	font-size: 0.9em;
 }
+
+.word-chooser {
+	max-height: 225px;
+	overflow: auto;
+}
+
+textarea {
+	height: 225px;
+	resize: none;
+}

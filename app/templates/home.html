@@ -8,7 +8,7 @@
 	<div class="row">
 		<div class="span6">
 			<h2>
-				Upload PST
+				First, upload a PST
 			</h2>
 			<form action="/upload/" id="upload" method="post">
 				<div class="well">
@@ -24,9 +24,21 @@
 		</div>
 		<div class="span6">
 			<h2>
-				Select words
+				Then, select words or add your own
 			</h2>
-			<p>description</p>
+			<div class="row">
+				<div class="span3 word-chooser">
+					<ul class="unstyled">
+					{% for word in words %}
+						<li>{{ word }}</li>	
+					{% endfor %}
+					</ul>
+				</div>
+				<div class="span3">
+					<textarea wrap="hard"></textarea>
+				</div>
+				<button id="filter-btn" class="btn btn-primary pull-right"><i class="icon-share"></i>Filter</button>
+			</div>
 		</div>
 	</div> <!-- /.row -->
 {% endblock %}
