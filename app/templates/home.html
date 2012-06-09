@@ -6,39 +6,21 @@
 		<p>Lets upload some stuff</p>
 	</div>
 	<div class="row">
-		<div class="span6">
+		<div class="span12">
 			<h2>
-				First, upload a PST
+				
 			</h2>
-			<form action="/upload/" id="upload" method="post">
+			<form action="/submit/" id="upload" method="post">
 				<div class="well">
 				{% csrf_token %}
-					<textarea name="textarea"></textarea>
+					<textarea id="text-input" required="true" autofocus="true" maxlength="5000" name="textarea"></textarea>
 					{% if field.errors %}
 						<span>{% for error in field.errors %}{{ error }}<br> {% endfor %}</span>
 					{% endif %}
-					<button id="submit" class="btn btn-success pull-right"><i class="icon-upload"></i>Upload</button>
+					<button id="submit-text" class="btn btn-primary"><i class="icon-share"></i>Submit</button>
 				</div>
 			</form>
 			<div id="status"></div>
-		</div>
-		<div class="span6">
-			<h2>
-				Then, select words or add your own
-			</h2>
-			<div class="row">
-				<div class="span3 word-chooser">
-					<ul class="unstyled">
-					{% for word in words %}
-						<li>{{ word }}</li>	
-					{% endfor %}
-					</ul>
-				</div>
-				<div class="span3">
-					<textarea wrap="hard"></textarea>
-				</div>
-				<button id="filter-btn" class="btn btn-primary pull-right"><i class="icon-share"></i>Filter</button>
-			</div>
 		</div>
 	</div> <!-- /.row -->
 {% endblock %}

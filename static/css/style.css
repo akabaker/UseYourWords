@@ -35,7 +35,9 @@ body {
 	overflow: auto;
 }
 
-textarea {
-	height: 225px;
+#text-input {
+	height: 25em;
+	width: 100%;
+	padding: 0px 0px 0px 0px;
 	resize: none;
 }

@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseForbidden, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
-from app.forms import UploadFile
+from app.forms import SubmitText
 from useyourwords import settings
 import tempfile
 import urllib2
@@ -19,13 +19,13 @@ def handle_uploaded_file(file):
 	return filepath
 
 @csrf_exempt
-def upload_file(request):
+def submit_text(request):
 	if request.method == 'POST':
-		form = UploadFile(request.POST, request.FILES)
+		form = SubmitText(request.POST)
 		if form.is_valid():
-			filepath = handle_uploaded_file(request.FILES['file'])
-			return HttpResponse(request.FILES.name)
-
+			return HttpResponse('success')
+		else:
+			return HttpResponse('invalid form')
 
 def index(request):
 	try:
