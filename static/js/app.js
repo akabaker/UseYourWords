@@ -3,12 +3,26 @@ var App = function() {
 	 	loading = $("#loading"),
 	 	input = $("#file-select"),
 	 	status = $("#status"),
+	 	text = $("#text-input"),
+	 	submitBtn = $("#submit-text"),
 	 	file;
 
 	return {
 		uploadBtn: uploadBtn,
-
 		input: input,
+		submitBtn: submitBtn,
+
+		doSubmit: function() {
+			$.ajax({
+				type: "POST",
+				url: "/submit/",
+				data: $.param(text),
+				success: function(result) {
+					$("#results").html(result);
+					//window.history.pushState(result, "results", "#results");
+				}
+			});
+		},
 
 		doUpload: function() {
 			var formData = new FormData();
@@ -48,4 +62,9 @@ $(function() {
 		//app.input.bind("change", jQuery.proxy(app.doUpload, app.input));
 		app.input.bind("change", app.doUpload);
 	}
+
+	app.submitBtn.click(function(event) {
+		event.preventDefault();
+		app.doSubmit();
+	});
 });

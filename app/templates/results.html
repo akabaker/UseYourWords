@@ -1,0 +1,32 @@
+<div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#pane1" data-toggle="tab">Word Cloud</a></li>
+		<li><a href="#pane2" data-toggle="tab">Word Frequency</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="pane1" class="tab-pane active">
+			{% for word, size in results.cloud.items %}
+			<span style="font-size:{{ size }}px">{{ word }}</span>
+			{% endfor %}
+		</div>
+		<div id="pane2" class="tab-pane">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Word</th>
+						<th>Count</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for word in results.freq %}
+					<tr>
+						<td>{{ word.0 }}</td>
+						<td>{{ word.1 }}</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

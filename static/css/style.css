@@ -36,8 +36,18 @@ body {
 }
 
 #text-input {
-	height: 25em;
+	height: 20em;
 	width: 100%;
 	padding: 0px 0px 0px 0px;
 	resize: none;
+}
+
+.hero-unit {
+	background: url('/static/img/p11-1.jpg');
+	color: white;
+}
+
+
+.hero-unit p {
+	font-style: italic;
 }
