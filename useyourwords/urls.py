@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
 	(r'^$', index),
 	(r'^submit/', submit_text),
+	(r'^submit-url/', parse_url),
     # Examples:
     # url(r'^$', 'useyourwords.views.home', name='home'),
     # url(r'^useyourwords/', include('useyourwords.foo.urls')),

@@ -3,8 +3,10 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseForbidden, Http404, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
-from app.forms import SubmitText
+from app.forms import SubmitText, SubmitUrl
 from useyourwords import settings
+from BeautifulSoup import BeautifulSoup
+import math
 import nltk
 import tempfile
 import urllib2
@@ -24,20 +26,26 @@ def calc_word_freq(words):
 	return freq
 	
 def generate_word_cloud(words):
-	#CSS font sizes
-	font_sizes = [10,20,30,40]
-	max_num = max(words.values())
-
-	#Interval
-	step = max_num / len(range(0,2))
-
 	result = {}
-	for word, count in words.items():
-		font_size_index = count / step
-		#result += '<span style="font-size:%dpx">%s - %d</span>' % (font_sizes[font_size_index], word, count)
-		result[word] = font_sizes[font_size_index]
 
+	for word, word_count in words.items():
+		font_size = word_count * 8
+		if font_size >= 150:
+			result[word] = 150
+		else:
+			result[word] = str(font_size)
 	return result
+
+def parse_url(url):
+	html = urllib2.urlopen(url).read()
+	soup = BeautifulSoup(html)
+	paragraphs = soup.findAll('p')
+
+	text = []
+	for p in paragraphs:
+		text.append(p.text)
+
+	return HttpResponse(text)
 
 @csrf_exempt
 def submit_text(request):
@@ -46,14 +54,14 @@ def submit_text(request):
 		if form.is_valid():
 			cd = form.cleaned_data
 			freq = calc_word_freq(cd.get('textarea'))
+			word_count = freq.N()
 			cloud = generate_word_cloud(freq)
-			results = {'freq': freq.items(), 'cloud': cloud }
+			results = {'freq': freq.items(), 'cloud': cloud, 'word_count': word_count }
 			return render_to_response('results.html', { 'results': results })	
 
 		else:
 			#return render_to_response('home.html', {'form': form })
-			return HttpResponse('errors')
-
+			return HttpResponse('<div class="alert alert-error">Please insert some text</div>')
 	#else:
 	#	form = SubmitText()
 	#	return render_to_response('home.html', { 'form': form })

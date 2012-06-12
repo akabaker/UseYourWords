@@ -37,7 +37,7 @@ body {
 
 #text-input {
 	height: 20em;
-	width: 100%;
+	width: 99.8%;
 	padding: 0px 0px 0px 0px;
 	resize: none;
 }
@@ -45,9 +45,4 @@ body {
 .hero-unit {
 	background: url('/static/img/p11-1.jpg');
 	color: white;
-}
-
-
-.hero-unit p {
-	font-style: italic;
 }

@@ -8,30 +8,26 @@
 	</div>
 	-->
 	<div class="page-header">
-		<h1>Text Light
-			<small>Copy and paste text below to get started.</small>
+		<h1>
+			<small>Analyse text via copy/paste or URL</small>
 		</h1>
 	</div>
 	<div class="row">
 		<div class="span12">
-			<div>
-				<form action="/submit/" id="upload" method="post">
+			<ul class="nav nav-pills">
+				<li class="active"><a href="#parse-text" data-toggle="tab">Parse Text</a></li>
+			</ul>
+			<div class="tab-content">
+				<div id="parse-text" class="tab-pane active">
+					<form action="/submit/" id="upload" method="post">
 					{% csrf_token %}
-						<textarea id="text-input" required="true" maxlength="5000" name="textarea"></textarea>
-						{% if form.textarea.errors %}
-							<ul class="unstyled">
-							{% for error in form.textarea.errors %}
-								<li class='alert alert-error'><strong>{{ error|escape }}</strong></li>
-							{% endfor %}
-							</ul>
-						{% endif %}
+						<textarea id="text-input" required="true" placeholder="enter text here" name="textarea"></textarea>
 						<button id="submit-text" class="btn btn-primary"><i class="icon-share"></i>Submit</button>
-				</form>
-			</div>
-			<div id="status"></div>
-		</div>
-	</div> <!-- /.row -->
-		<hr>
-	<div id="results">
+					</form>
+					<div id="results"></div>
+				</div>
+			</div> <!-- /.tab-content -->
+			<span id="loading">Loading..</span>
+		</div> <!-- /.span12 -->
 	</div> <!-- /.row -->
 {% endblock %}

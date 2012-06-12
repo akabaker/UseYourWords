@@ -1,16 +1,17 @@
 <div class="tabbable">
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="#pane1" data-toggle="tab">Word Cloud</a></li>
-		<li><a href="#pane2" data-toggle="tab">Word Frequency</a></li>
+		<li class="active"><a href="#word-cloud" data-toggle="tab">Word Cloud</a></li>
+		<li><a href="#frequency" data-toggle="tab">Word Frequency</a></li>
 	</ul>
 
 	<div class="tab-content">
-		<div id="pane1" class="tab-pane active">
+		<div id="word-cloud" class="tab-pane active">
 			{% for word, size in results.cloud.items %}
-			<span style="font-size:{{ size }}px">{{ word }}</span>
+				<span style="font-size:{{ size }}px">{{ word }}</span>
 			{% endfor %}
 		</div>
-		<div id="pane2" class="tab-pane">
+		<div id="frequency" class="tab-pane">
+			<span class="badge badge-success"> Total words: {{ results.word_count }}</span>
 			<table class="table table-striped">
 				<thead>
 					<tr>
