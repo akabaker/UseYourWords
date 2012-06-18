@@ -14,18 +14,32 @@
 	</div>
 	<div class="row">
 		<div class="span12">
-			<ul class="nav nav-pills">
-				<li class="active"><a href="#parse-text" data-toggle="tab">Parse Text</a></li>
+			<ul class="nav nav-pills nav-stacked">
+				<li class="active"><a href="#parse-text" data-toggle="tab"><i class="icon-book"></i> Parse Text</a></li>
+				<li><a href="#parse-url" data-toggle="tab"><i class="icon-globe"></i> Parse URL</a></li>
 			</ul>
 			<div class="tab-content">
 				<div id="parse-text" class="tab-pane active">
 					<form action="/submit/" id="upload" method="post">
 					{% csrf_token %}
 						<textarea id="text-input" required="true" placeholder="enter text here" name="textarea"></textarea>
-						<button id="submit-text" class="btn btn-primary"><i class="icon-share"></i>Submit</button>
+						<button id="submit-text" class="btn btn-primary"><i class="icon-share"></i> Submit</button>
 					</form>
-					<div id="results"></div>
+					<div id="text-results"></div>
 				</div>
+				<div id="parse-url" class="tab-pane">
+					<form action="/submit-url/" id="submit-url-form" method="post" class="well">
+					{% csrf_token %}
+						<input type="url" name="url" required="true" id="url-input" placeholder="enter url here" />
+						<label>Choose elements<label>
+							<select multiple="multiple" name="elements[]" required="true" id="elements">
+								<option value="p">p</option>
+								<option value="h1">h1</option>
+							</select>
+						<button id="submit-url" class="btn btn-primary"><i class="icon-share"></i> Submit</button>
+					</form>
+				</div>
+					<div id="url-results"></div>
 			</div> <!-- /.tab-content -->
 			<span id="loading">Loading..</span>
 		</div> <!-- /.span12 -->

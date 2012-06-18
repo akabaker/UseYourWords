@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
 from app.forms import SubmitText, SubmitUrl
 from useyourwords import settings
-from BeautifulSoup import BeautifulSoup
+from BeautifulSoup import BeautifulSoup as bs
 import math
 import nltk
 import tempfile
@@ -36,16 +36,32 @@ def generate_word_cloud(words):
 			result[word] = str(font_size)
 	return result
 
-def parse_url(url):
-	html = urllib2.urlopen(url).read()
-	soup = BeautifulSoup(html)
-	paragraphs = soup.findAll('p')
+def parse_url(url, elements):
+	html = urllib2.urlopen(urllib2.Request(url)).read()
+	soup = bs(html)
+	words = []
 
-	text = []
-	for p in paragraphs:
-		text.append(p.text)
+	for elem in elements:
+		for line in soup.findAll(elem): words.append(line.text)
+	
+	return ' '.join(words)
+	#freq = nltk.FreqDist(nltk.word_tokenize(' '.join(words)))
 
-	return HttpResponse(text)
+@csrf_exempt
+def submit_url(request):
+	if request.is_ajax:
+		if request.method == 'POST':
+			form = SubmitUrl(request.POST)
+			if form.is_valid():
+				cd = form.cleaned_data
+				parsed_text = parse_url(cd.get('url'), cd.get('elements'))
+				freq = calc_word_freq(parsed_text)
+				word_count = freq.N()
+				cloud = generate_word_cloud(freq)
+				results = {'freq': freq.items(), 'cloud': cloud, 'word_count': word_count }
+				return render_to_response('results.html', { 'results': results })	
+			else:
+				return HttpResponse('<div class="alert alert-error">%s</div>' % form.errors)
 
 @csrf_exempt
 def submit_text(request):
@@ -60,11 +76,7 @@ def submit_text(request):
 			return render_to_response('results.html', { 'results': results })	
 
 		else:
-			#return render_to_response('home.html', {'form': form })
-			return HttpResponse('<div class="alert alert-error">Please insert some text</div>')
-	#else:
-	#	form = SubmitText()
-	#	return render_to_response('home.html', { 'form': form })
+			return HttpResponse('<div class="alert alert-error">%s</div>' % form.errors)
 
 @csrf_exempt
 def index(request):

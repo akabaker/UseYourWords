@@ -4,32 +4,57 @@ var App = function() {
 	 	input = $("#file-select"),
 	 	status = $("#status"),
 	 	text = $("#text-input"),
-	 	url = $("#url-input"),
+	 	urlInput = $("#url-input"),
 	 	submitBtn = $("#submit-text"),
-	 	results = $("#results"),
+	 	submitUrlBtn = $("#submit-url"),
+	 	results = $("#text-results"),
+	 	urlResults = $("#url-results"),
+	 	elements = $("#elements"),
 	 	file;
 
 	return {
 		uploadBtn: uploadBtn,
 		input: input,
 		submitBtn: submitBtn,
+		textInput: text,
+		urlInput: urlInput,
+		submitUrlBtn: submitUrlBtn,
 
-		doSubmit: function() {
+		doSubmit: function(parseUrl) {
 			loading.ajaxStart(function() {
 				results.hide();	
 				$(this).show();
 			});
+			
+			if (parseUrl === 'url') {
+				var url = '/submit-url/';
+				/*
+					data = {
+						url: urlInput.val(),
+						elements: elements.val(),
+					};
+				*/
+				var output = urlResults;
+				var data = "url=" + urlInput.val() + "&elements=" + elements.val();
+
+			} else {
+				var url = '/submit/',
+					data = text,
+					output = results;
+			}
+
+
 
 			$.ajax({
 				type: "POST",
-				url: "/submit/",
-				data: $.param(text),
+				url: url,
+				data: data,
 				success: function(result) {
-					$("#results").html(result);
-					//window.history.pushState(result, "results", "#results");
+					console.log(output);
+					output.html(result);
 					loading.ajaxStop(function() {
 						$(this).hide();
-						results.show();	
+						output.show();	
 					});
 				}
 			});
@@ -54,7 +79,7 @@ var App = function() {
 				contentType: false,
 				statusCode: {
 					500: function() {
-						$("#results").html('<div class="alert alert-error">There was a problem parsing your text.</div>');
+						results.html('<div class="alert alert-error">There was a problem parsing your text.</div>');
 						loading.ajaxStop(function() {
 							$(this).hide();
 						});
@@ -82,8 +107,27 @@ $(function() {
 		app.input.bind("change", app.doUpload);
 	}
 
+	app.textInput.keypress(function(event) {
+		if (event.which == 13) {
+			event.preventDefault();
+			app.doSubmit('text');
+		}
+	});
+
 	app.submitBtn.click(function(event) {
 		event.preventDefault();
-		app.doSubmit();
+		app.doSubmit('text');
+	});
+
+	app.urlInput.keypress(function(event) {
+		if (event.which == 13) {
+			event.preventDefault();
+			app.doSubmit('url');
+		}
+	});
+
+	app.submitUrlBtn.click(function(event) {
+		event.preventDefault();
+		app.doSubmit('url');
 	});
 });
